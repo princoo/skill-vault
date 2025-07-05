@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState } from "react";
@@ -9,11 +10,16 @@ import { registerSchema, type RegisterFormData } from "@/lib/validations/auth";
 import { FormInput } from "@/components/ui/FormInput";
 import { FormField } from "@/components/ui/FormField";
 import Button from "@/components/ui/Button";
+import ErrorDiv from "@/components/ErrorDiv";
+import { useRouter } from "next/navigation";
+import { signup } from "@/actions/register";
 
 export default function RegisterPage() {
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isError, setError] = useState<string | null>(null);
 
   const {
     register,
@@ -24,8 +30,20 @@ export default function RegisterPage() {
   });
 
   const onSubmit = async (data: RegisterFormData) => {
-    // setIsLoading(true);
-    //   setIsLoading(false);
+    setIsLoading(true);
+    setError(null);
+    try {
+      const response = await signup(data);
+      if (response.success) {
+        router.push("/login");
+      } else {
+        setError(response.error);
+      }
+    } catch (error: any) {
+      setError(`Something went wrong ${error.message}`);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -41,6 +59,7 @@ export default function RegisterPage() {
         </div>
 
         <div className="bg-foreground border border-gray rounded-xl p-6">
+          {isError && <ErrorDiv error={isError} />}
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <FormField label="Full Name" error={errors.name?.message}>
               <div className="relative">

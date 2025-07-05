@@ -2,8 +2,10 @@ import { FaEdit, FaTrash } from "react-icons/fa";
 import clsx from "clsx";
 import { SkillCardProps } from "@/types/skills";
 import NewSkillCard from "./NewSkillCard";
+import Link from "next/link";
 
 export function SkillCard({
+  id,
   title,
   category,
   progress,
@@ -18,6 +20,7 @@ export function SkillCard({
   const progressPercentage = (progress.completed / progress.total) * 100;
 
   return (
+    <Link href={`/vault/${id}`} className="block">
     <div className="bg-foreground border border-gray/50 rounded-lg p-6 hover:border-gray">
       <div className="flex items-start justify-between mb-4">
         <div>
@@ -67,5 +70,6 @@ export function SkillCard({
         </span>
       </div>
     </div>
+    </Link>
   );
 }

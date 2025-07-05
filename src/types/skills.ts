@@ -1,4 +1,5 @@
 export interface SkillCardProps {
+  id: string;
   title: string;
   category: string;
   progress: {

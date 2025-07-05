@@ -5,6 +5,7 @@ import { SkillCard } from "./SkillCard";
 export default function UserSkills() {
   const skills = [
     {
+      id: "1",
       title: "React Advanced",
       category: "Frontend Development",
       progress: { completed: 7, total: 10 },
@@ -29,6 +30,7 @@ export default function UserSkills() {
           <SkillCard key={index} {...skill} />
         ))}
         <SkillCard
+          id="add-skill"
           title=""
           category=""
           progress={{ completed: 0, total: 0 }}
