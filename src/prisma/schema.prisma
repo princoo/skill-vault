@@ -13,6 +13,24 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Category {
+  FRONTEND
+  BACKEND
+  DEVOPS
+}
+
+enum Status {
+  NOT_STARTED
+  IN_PROGRESS
+  COMPLETED
+}
+
+enum Mood {
+  HAPPY
+  CONFUSED
+  SAD
+}
+
 model User {
   id         String   @id @default(uuid())
   fullName   String
@@ -20,4 +38,50 @@ model User {
   password   String
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
+
+  skills  Skill[]
+}
+
+model Skill {
+  id          String       @id @default(uuid())
+  title       String
+  description String
+  category    Category
+  status      Status
+  userId      String
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tasks       Task[]
+  reflections Reflection[]
+
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  @@index([userId, status])
+}
+
+model Task {
+  id        String   @id @default(uuid())
+  name      String
+  dueDate   DateTime
+  completed Boolean  @default(false)
+  skillId   String
+  skill     Skill    @relation(fields: [skillId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([skillId, completed])
+}
+
+model Reflection {
+  id        String   @id @default(uuid())
+  content   String
+  mood      Mood
+  skillId   String
+  skill     Skill    @relation(fields: [skillId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([skillId])
 }

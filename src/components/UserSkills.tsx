@@ -1,18 +1,10 @@
 import React from "react";
 import { FaChevronDown } from "react-icons/fa";
 import { SkillCard } from "./SkillCard";
+import { Skill } from "@/types/skills";
+import NewSkillCard from "./NewSkillCard";
 
-export default function UserSkills() {
-  const skills = [
-    {
-      id: "1",
-      title: "React Advanced",
-      category: "Frontend Development",
-      progress: { completed: 7, total: 10 },
-      status: "In Progress" as const,
-      lastActivity: "Started 3 weeks ago",
-    },
-  ];
+export default function UserSkills({skills}:{skills:Skill[]}) {
   return (
     <section>
       <div className="flex items-center justify-between mb-6">
@@ -27,17 +19,9 @@ export default function UserSkills() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {skills.map((skill, index) => (
-          <SkillCard key={index} {...skill} />
+          <SkillCard key={index} skill={skill} />
         ))}
-        <SkillCard
-          id="add-skill"
-          title=""
-          category=""
-          progress={{ completed: 0, total: 0 }}
-          status="In Progress"
-          lastActivity=""
-          isAddCard={true}
-        />
+        <NewSkillCard />
       </div>
     </section>
   );

@@ -1,55 +1,45 @@
+// import { getUserSkills } from "@/lib/data/skills";
 import type React from "react";
 import { FaBook, FaCheckCircle, FaClock, FaTasks } from "react-icons/fa";
+import StartCard from "./StartCard";
+import { Skill } from "@/types/skills";
+// import { Status } from "@/enum/skill";
+import { totalSkills, totalSkillsCompleted, totalSkillsInProgress, totalSkillsTasks } from "@/lib/utils/skill";
 
-interface StatCardProps {
-  title: string;
-  value: string | number;
-  icon: React.ComponentType<{ className?: string }>;
-  color: string;
-}
+export async function StatsCards({skills}:{skills:Skill[]}) {
+  // const res = await getUserSkills();
+  // const skills: Skill[] = res.data;
+  // const totalSkills = skills.length;
+  // const completed = skills.filter(
+  //   (skill) => skill.status === Status.COMPLETED
+  // ).length;
+  // const inProgress = skills.filter(
+  //   (skill) => skill.status === Status.IN_PROGRESS
+  // ).length;
+  // const totalTasks = skills.flatMap((skill) => skill.tasks ?? []).length;
 
-function StatCard({ title, value, icon: Icon, color }: StatCardProps) {
-  return (
-    <div className="bg-foreground border border-gray rounded-lg p-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <p className="text-gray-text text-sm font-medium">{title}</p>
-          <p className="text-white text-2xl font-bold mt-1">{value}</p>
-        </div>
-        <div
-          className={`w-12 h-12 rounded-lg flex items-center justify-center ${color}`}
-        >
-          <Icon className="text-white text-xl" />
-        </div>
-      </div>
-    </div>
-  );
-}
-
-export function StatsCards() {
-  // am using this just for the design i will be fetching this data from the api
   const stats = [
     {
       title: "Total Skills",
-      value: 12, // am using this just for the design i will be fetching this data from the api
+      value: totalSkills(skills),
       icon: FaBook,
       color: "bg-blue",
     },
     {
       title: "Completed",
-      value: 7, // am using this just for the design i will be fetching this data from the api
+      value: totalSkillsCompleted(skills),
       icon: FaCheckCircle,
       color: "bg-green",
     },
     {
       title: "In Progress",
-      value: 5, // am using this just for the design i will be fetching this data from the api
+      value: totalSkillsInProgress(skills),
       icon: FaClock,
       color: "bg-yellow",
     },
     {
       title: "Total Tasks",
-      value: 47, // am using this just for the design i will be fetching this data from the api
+      value: totalSkillsTasks(skills),
       icon: FaTasks,
       color: "bg-purple",
     },
@@ -58,7 +48,7 @@ export function StatsCards() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
       {stats.map((stat, index) => (
-        <StatCard key={index} {...stat} />
+        <StartCard key={index} {...stat} />
       ))}
     </div>
   );
