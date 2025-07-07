@@ -1,6 +1,6 @@
 import { SideBar } from "@/components/SideBar";
 import React from "react";
-import { FaPlus, FaSearch } from "react-icons/fa";
+import { FaSearch } from "react-icons/fa";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -17,20 +17,15 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </div>
             <div className="flex items-center space-x-4">
               <div className="relative">
-                {" "}
-                {/* search input */}
+
                 <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-text text-sm" />
                 <input
                   type="text"
                   placeholder="Search skills..."
-                  className="bg-gray border border-gray-500 rounded-lg pl-10 pr-4 py-2 text-white placeholder:text-gray-text"
+                  className="bg-gray border border-gray rounded-lg pl-10 pr-4 py-2 text-white placeholder:text-gray-text"
                 />
               </div>
-              {/* new skill button */}
-              <button className="bg-blue hover:bg-blue/80 text-white px-4 py-2 rounded-lg font-medium flex items-center space-x-2">
-                <FaPlus className="text-sm" />
-                <span>Add Skill</span>
-              </button>
+              
             </div>
           </div>
         </header>
