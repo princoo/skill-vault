@@ -51,13 +51,14 @@ export async function getAllByUser() {
 }
 export async function getById(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const {id} = await params
   const user = await currentUser();
   if (!user || !user.id) {
     return errorResponse("Unauthorized", 401, { message: "User not found" });
   }
-  const skill = await skillService.getSkillById(params.id);
+  const skill = await skillService.getSkillById(id);
   if (!skill) {
     return errorResponse("Skill not found", 404);
   }
